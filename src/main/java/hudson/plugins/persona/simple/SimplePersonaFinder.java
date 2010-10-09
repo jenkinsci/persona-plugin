@@ -26,6 +26,7 @@ package hudson.plugins.persona.simple;
 import hudson.Extension;
 import hudson.ExtensionFinder;
 import hudson.FilePath;
+import hudson.PluginWrapper;
 import hudson.model.AbstractBuild;
 import hudson.model.Hudson;
 import hudson.model.Result;
@@ -61,25 +62,32 @@ public class SimplePersonaFinder extends ExtensionFinder {
 
         List<SimplePersona> r = new ArrayList<SimplePersona>();
 
+        // locate personas from $HUDSON_HOME
         try {
             FilePath baseDir = new FilePath(hudson.getRootDir());
             for (FilePath xml : baseDir.list("persona/**/*.xml")) {
-                try {
-                    URL url = xml.toURI().toURL();
-                    r.add(parsePersona(url,
-                            xml.getParent().toURI().toURL(),
-                            xml.getParent().getRemote().substring(baseDir.getRemote().length()+1)));
-                } catch (IOException e) {
-                    LOGGER.log(Level.SEVERE, "Faied to load a persona from "+xml,e);
-                } catch (DocumentException e) {
-                    LOGGER.log(Level.SEVERE, "Faied to load a persona from "+xml,e);
-                }
+                URL url = xml.toURI().toURL();
+                parsePersonaInto(url,
+                        xml.getParent().toURI().toURL(),
+                        xml.getParent().getRemote().substring(baseDir.getRemote().length()+1),r);
             }
         } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Faied to load personas",e);
+            LOGGER.log(Level.SEVERE, "Failed to load personas",e);
         } catch (InterruptedException e) {
             // all local processing. can't happen
             throw new Error(e);
+        }
+
+        // locate personas from plugins
+        for (PluginWrapper pw : hudson.getPluginManager().getPlugins()) {
+            URL xml;
+            try {
+                xml = new URL(pw.baseResourceURL,"persona.xml");
+                xml.openStream().close();
+            } catch (IOException e) {
+                continue;   // no such file
+            }
+            parsePersonaInto(xml,pw.baseResourceURL,"plugin/"+pw.getShortName(),r);
         }
 
         return (List)r;
@@ -99,6 +107,16 @@ public class SimplePersonaFinder extends ExtensionFinder {
             }
         }
         throw new IOException("No image found that matches "+imageBase+"/"+baseName+".*");
+    }
+
+    private void parsePersonaInto(URL xml, URL imageBase, String imageBasePath, Collection<SimplePersona> result) {
+        try {
+            result.add(parsePersona(xml,imageBase,imageBasePath));
+        } catch (DocumentException e) {
+            LOGGER.log(Level.SEVERE, "Faied to load a persona from "+xml,e);
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, "Faied to load a persona from "+xml,e);
+        }
     }
 
     /**

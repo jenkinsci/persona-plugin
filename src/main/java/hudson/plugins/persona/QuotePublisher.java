@@ -88,7 +88,7 @@ public class QuotePublisher extends Notifier {
             return "Associate Persona";
         }
 
-        public ListBoxModel doFillPersonaItems() {
+        public ListBoxModel doFillPersonaIdItems() {
             ListBoxModel r = new ListBoxModel();
             for (Persona p : Persona.all()) {
                 r.add(p.getDisplayName(),p.id);
