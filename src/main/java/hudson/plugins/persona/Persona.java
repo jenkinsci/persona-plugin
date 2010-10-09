@@ -33,13 +33,24 @@ import hudson.model.ModelObject;
 import hudson.plugins.persona.simple.DefaultQuoteImpl;
 
 /**
+ * A person and his/her set of quotes.
+ * <p>
+ * Normally a persona is someone famous, funny, or both (such as Chuck Norris.)
+ *
  * @author Kohsuke Kawaguchi
  */
 public abstract class Persona implements ExtensionPoint, ModelObject {
+    /**
+     * Uniquely identifies this persona among other personas.
+     */
     public final String id;
 
     protected Persona(String id) {
         this.id = id;
+    }
+
+    protected Persona() {
+        id = getClass().getName();
     }
 
     /**
@@ -47,7 +58,7 @@ public abstract class Persona implements ExtensionPoint, ModelObject {
      *
      * @see DefaultQuoteImpl
      */
-    public abstract Action generateQuote(AbstractBuild<?,?> build);
+    public abstract Quote generateQuote(AbstractBuild<?,?> build);
 
     /**
      * Returns all the registered {@link Persona}s.

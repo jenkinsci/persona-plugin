@@ -78,8 +78,14 @@ public class SimplePersonaFinder extends ExtensionFinder {
         throw new IOException("No image found that matches "+imageBase+"/"+baseName+".*");
     }
 
-
-
+    /**
+     * Parses a persona from an XML file.
+     *
+     * @param xml
+     *      Location of the XML file.
+     * @param imageBase
+     *      Base URL to find images like icon.png, success.jpg, and so on.
+     */
     private SimplePersona parsePersona(URL xml, final URL imageBase, final String imageBasePath) throws DocumentException, IOException {
         Document d = new SAXReader().read(xml);
         Element r = d.getRootElement();

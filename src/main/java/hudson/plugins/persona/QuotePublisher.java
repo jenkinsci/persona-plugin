@@ -23,6 +23,7 @@
  */
 package hudson.plugins.persona;
 
+import hudson.Extension;
 import hudson.Launcher;
 import hudson.model.AbstractBuild;
 import hudson.model.AbstractProject;
@@ -75,6 +76,7 @@ public class QuotePublisher extends Notifier {
         return true;
     }
 
+    @Extension
     public static class DescriptorImpl extends BuildStepDescriptor<Publisher> {
         @Override
         public boolean isApplicable(Class<? extends AbstractProject> jobType) {
@@ -83,7 +85,7 @@ public class QuotePublisher extends Notifier {
 
         @Override
         public String getDisplayName() {
-            return "Associate Quotes";
+            return "Associate Persona";
         }
 
         public ListBoxModel doFillPersonaItems() {

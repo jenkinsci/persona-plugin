@@ -23,12 +23,14 @@
  */
 package hudson.plugins.persona;
 
+import hudson.model.AbstractBuild;
 import hudson.model.Action;
 
 /**
  * Marks those actions that are quotes from persona.
  *
  * @author Kohsuke Kawaguchi
+ * @see Persona#generateQuote(AbstractBuild) 
  */
 public interface Quote extends Action {
 }
