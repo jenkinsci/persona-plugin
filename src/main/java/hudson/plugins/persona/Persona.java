@@ -65,7 +65,7 @@ public abstract class Persona implements ExtensionPoint, ModelObject {
     public abstract Quote generateQuote(AbstractBuild<?,?> build);
 
     /**
-     * Generates a random quote for the top page.
+     * Generates a random quote for the project top page.
      *
      * @see AbstractQuoteImpl
      */

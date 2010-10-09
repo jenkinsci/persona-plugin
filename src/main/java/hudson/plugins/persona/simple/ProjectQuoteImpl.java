@@ -23,7 +23,7 @@ public class ProjectQuoteImpl extends AbstractQuoteImpl {
     @Override
     public Image getImage() {
         QuoteImpl q = getLastQuote();
-        return q!=null ? q.getImage() : null;
+        return q!=null ? q.getImage() : persona.getDefaultImage();
     }
 
     private QuoteImpl getLastQuote() {

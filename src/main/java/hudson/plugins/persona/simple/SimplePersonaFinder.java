@@ -154,6 +154,11 @@ public class SimplePersonaFinder extends ExtensionFinder {
                 return new Image(icon,other);
             }
 
+            @Override
+            public Image getDefaultImage() {
+                return new Image(icon,success);
+            }
+
             public String getDisplayName() {
                 return displayName;
             }

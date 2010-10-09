@@ -56,6 +56,8 @@ public abstract class SimplePersona extends Persona {
      */
     public abstract Image getImage(AbstractBuild<?, ?> build);
 
+    public abstract Image getDefaultImage();
+
     @Override
     public Quote generateQuote(AbstractBuild<?, ?> build) {
         return new QuoteImpl(build,this, getRandomQuoteText());
