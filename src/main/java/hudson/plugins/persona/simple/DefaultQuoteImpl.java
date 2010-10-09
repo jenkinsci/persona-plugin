@@ -21,9 +21,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package hudson.plugins.persona;
+package hudson.plugins.persona.simple;
 
+import hudson.model.AbstractBuild;
 import hudson.model.InvisibleAction;
+import hudson.plugins.persona.Quote;
 
 /**
  * Default implementation of quote that renders a simple non-localized text.
@@ -31,9 +33,17 @@ import hudson.model.InvisibleAction;
  * @author Kohsuke Kawaguchi
  */
 public final class DefaultQuoteImpl extends InvisibleAction implements Quote {
+    public final AbstractBuild<?,?> build;
+    public final SimplePersona persona;
     public final String quote;
 
-    public DefaultQuoteImpl(String quote) {
+    public DefaultQuoteImpl(AbstractBuild<?, ?> build, SimplePersona persona, String quote) {
+        this.build = build;
+        this.persona = persona;
         this.quote = quote;
+    }
+
+    public Image getImage() {
+        return persona!=null ? persona.getImage(build) : null;
     }
 }

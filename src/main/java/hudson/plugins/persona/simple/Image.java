@@ -1,4 +1,4 @@
-package hudson.plugins.persona;
+package hudson.plugins.persona.simple;
 
 /**
  * @author Kohsuke Kawaguchi

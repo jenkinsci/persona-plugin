@@ -24,12 +24,14 @@
 package hudson.plugins.persona;
 
 import com.thoughtworks.xstream.converters.basic.AbstractBasicConverter;
+import com.thoughtworks.xstream.converters.basic.AbstractSingleValueConverter;
 import hudson.ExtensionList;
 import hudson.ExtensionPoint;
 import hudson.model.AbstractBuild;
 import hudson.model.Action;
 import hudson.model.Hudson;
 import hudson.model.ModelObject;
+import hudson.plugins.persona.simple.DefaultQuoteImpl;
 
 /**
  * @author Kohsuke Kawaguchi
@@ -63,20 +65,20 @@ public abstract class Persona implements ExtensionPoint, ModelObject {
         return null;
     }
 
-    public static final class ConverterImpl extends AbstractBasicConverter {
+    public static final class ConverterImpl extends AbstractSingleValueConverter {
         @Override
-        protected Persona fromString(String id) {
+        public Persona fromString(String id) {
             return byId(id);
         }
 
         @Override
-        protected String toString(Object obj) {
+        public String toString(Object obj) {
             return ((Persona)obj).id;
         }
 
         @Override
         public boolean canConvert(Class type) {
-            return type==Persona.class;
+            return Persona.class.isAssignableFrom(type);
         }
     }
 }
