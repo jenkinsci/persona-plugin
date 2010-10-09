@@ -59,14 +59,7 @@ public class QuotePublisher extends Notifier {
 
     @Override
     public Action getProjectAction(AbstractProject<?, ?> project) {
-        AbstractBuild<?, ?> lb = project.getLastBuild();
-        if (lb!=null) {
-            Quote q = lb.getAction(Quote.class);
-            if (q!=null)    return q;
-            if (persona !=null)
-                return persona.generateQuote(lb);
-        }
-        return null;
+        return persona.generateProjectQuote(project);
     }
 
     @Override

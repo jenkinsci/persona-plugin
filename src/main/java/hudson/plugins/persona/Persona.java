@@ -28,11 +28,12 @@ import com.thoughtworks.xstream.converters.basic.AbstractSingleValueConverter;
 import hudson.ExtensionList;
 import hudson.ExtensionPoint;
 import hudson.model.AbstractBuild;
+import hudson.model.AbstractProject;
 import hudson.model.Hudson;
 import hudson.model.Items;
 import hudson.model.ModelObject;
 import hudson.model.Run;
-import hudson.plugins.persona.simple.DefaultQuoteImpl;
+import hudson.plugins.persona.simple.AbstractQuoteImpl;
 
 /**
  * A person and his/her set of quotes.
@@ -59,9 +60,16 @@ public abstract class Persona implements ExtensionPoint, ModelObject {
     /**
      * Generates a random quote for the given build.
      *
-     * @see DefaultQuoteImpl
+     * @see AbstractQuoteImpl
      */
     public abstract Quote generateQuote(AbstractBuild<?,?> build);
+
+    /**
+     * Generates a random quote for the top page.
+     *
+     * @see AbstractQuoteImpl
+     */
+    public abstract Quote generateProjectQuote(AbstractProject<?,?> project);
 
     /**
      * Returns all the registered {@link Persona}s.

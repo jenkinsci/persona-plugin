@@ -30,8 +30,6 @@ import hudson.FilePath;
 import hudson.PluginWrapper;
 import hudson.model.AbstractBuild;
 import hudson.model.Hudson;
-import hudson.model.Item;
-import hudson.model.Items;
 import hudson.model.Result;
 import hudson.plugins.persona.Persona;
 import org.dom4j.Document;

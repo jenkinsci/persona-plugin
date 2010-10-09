@@ -24,7 +24,7 @@
 package hudson.plugins.persona.simple;
 
 import hudson.model.AbstractBuild;
-import hudson.model.Action;
+import hudson.model.AbstractProject;
 import hudson.plugins.persona.Persona;
 import hudson.plugins.persona.Quote;
 
@@ -57,7 +57,16 @@ public abstract class SimplePersona extends Persona {
     public abstract Image getImage(AbstractBuild<?, ?> build);
 
     @Override
-    public synchronized Quote generateQuote(AbstractBuild<?, ?> build) {
-        return new DefaultQuoteImpl(build,this,quotes.get(random.nextInt(quotes.size())));
+    public Quote generateQuote(AbstractBuild<?, ?> build) {
+        return new QuoteImpl(build,this, getRandomQuoteText());
+    }
+
+    public synchronized String getRandomQuoteText() {
+        return quotes.get(random.nextInt(quotes.size()));
+    }
+
+    @Override
+    public Quote generateProjectQuote(AbstractProject<?,?> project) {
+        return new ProjectQuoteImpl(this,project);
     }
 }

@@ -23,7 +23,6 @@
  */
 package hudson.plugins.persona.simple;
 
-import hudson.model.AbstractBuild;
 import hudson.model.InvisibleAction;
 import hudson.plugins.persona.Quote;
 
@@ -32,18 +31,13 @@ import hudson.plugins.persona.Quote;
  *
  * @author Kohsuke Kawaguchi
  */
-public final class DefaultQuoteImpl extends InvisibleAction implements Quote {
-    public final AbstractBuild<?,?> build;
+public abstract class AbstractQuoteImpl extends InvisibleAction implements Quote {
     public final SimplePersona persona;
-    public final String quote;
 
-    public DefaultQuoteImpl(AbstractBuild<?, ?> build, SimplePersona persona, String quote) {
-        this.build = build;
+    public AbstractQuoteImpl(SimplePersona persona) {
         this.persona = persona;
-        this.quote = quote;
     }
 
-    public Image getImage() {
-        return persona!=null ? persona.getImage(build) : null;
-    }
+    public abstract String getQuote();
+    public abstract Image getImage();
 }
