@@ -34,4 +34,6 @@ public abstract class SimplePersona extends Persona {
     public synchronized Action generateQuote(AbstractBuild<?, ?> build) {
         return new DefaultQuoteImpl(build,this,quotes.get(random.nextInt(quotes.size())));
     }
+
+    public static class ConverterImpl extends Persona.ConverterImpl {}
 }

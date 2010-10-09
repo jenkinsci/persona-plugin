@@ -23,7 +23,6 @@
  */
 package hudson.plugins.persona;
 
-import com.thoughtworks.xstream.converters.basic.AbstractBasicConverter;
 import com.thoughtworks.xstream.converters.basic.AbstractSingleValueConverter;
 import hudson.ExtensionList;
 import hudson.ExtensionPoint;
@@ -65,7 +64,7 @@ public abstract class Persona implements ExtensionPoint, ModelObject {
         return null;
     }
 
-    public static final class ConverterImpl extends AbstractSingleValueConverter {
+    public static class ConverterImpl extends AbstractSingleValueConverter {
         @Override
         public Persona fromString(String id) {
             return byId(id);
