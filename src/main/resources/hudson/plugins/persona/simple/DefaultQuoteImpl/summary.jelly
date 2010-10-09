@@ -23,18 +23,6 @@ THE SOFTWARE.
 -->
 <?jelly escape-by-default='true'?>
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:i="jelly:fmt" xmlns:local="local">
-  <j:set var="img" value="${action.image}"/>
-
-  <img src="${rootURL}/${img.smallIconUrl}" width="16" height="16" /> ${action.quote}
-  <script>
-      Element.setStyle($('main-table'), {
-          'background-image': 'none'
-      });
-      Element.setStyle($('main-panel'), {
-          'background-image': 'url(${rootURL}/${img.backgroundImageUrl})',
-          'background-repeat': 'no-repeat',
-          'background-position': 'bottom right',
-          'padding-bottom': '270px'
-      });
-  </script>
+  <j:set var="action" value="${it}"/>
+  <st:include page="floatingBox.jelly" />
 </j:jelly>

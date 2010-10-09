@@ -23,13 +23,15 @@
  */
 package hudson.plugins.persona;
 
+import com.thoughtworks.xstream.annotations.XStreamSerializeAs;
 import com.thoughtworks.xstream.converters.basic.AbstractSingleValueConverter;
 import hudson.ExtensionList;
 import hudson.ExtensionPoint;
 import hudson.model.AbstractBuild;
-import hudson.model.Action;
 import hudson.model.Hudson;
+import hudson.model.Items;
 import hudson.model.ModelObject;
+import hudson.model.Run;
 import hudson.plugins.persona.simple.DefaultQuoteImpl;
 
 /**
@@ -39,6 +41,7 @@ import hudson.plugins.persona.simple.DefaultQuoteImpl;
  *
  * @author Kohsuke Kawaguchi
  */
+@XStreamSerializeAs(Persona.class)
 public abstract class Persona implements ExtensionPoint, ModelObject {
     /**
      * Uniquely identifies this persona among other personas.
@@ -90,5 +93,10 @@ public abstract class Persona implements ExtensionPoint, ModelObject {
         public boolean canConvert(Class type) {
             return Persona.class.isAssignableFrom(type);
         }
+    }
+
+    static {
+        Items.XSTREAM.registerConverter(new Persona.ConverterImpl(),10);
+        Run.XSTREAM.registerConverter(new Persona.ConverterImpl(),10);
     }
 }

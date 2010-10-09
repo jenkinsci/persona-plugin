@@ -24,11 +24,14 @@
 package hudson.plugins.persona.simple;
 
 import hudson.Extension;
+import hudson.ExtensionComponent;
 import hudson.ExtensionFinder;
 import hudson.FilePath;
 import hudson.PluginWrapper;
 import hudson.model.AbstractBuild;
 import hudson.model.Hudson;
+import hudson.model.Item;
+import hudson.model.Items;
 import hudson.model.Result;
 import hudson.plugins.persona.Persona;
 import org.dom4j.Document;
@@ -57,10 +60,10 @@ public class SimplePersonaFinder extends ExtensionFinder {
 
 
     @Override
-    public <T> Collection<T> findExtensions(Class<T> type, Hudson hudson) {
+    public <T> Collection<ExtensionComponent<T>> find(Class<T> type, Hudson hudson) {
         if (type!=Persona.class)    return Collections.emptyList();
 
-        List<SimplePersona> r = new ArrayList<SimplePersona>();
+        List<ExtensionComponent<SimplePersona>> r = new ArrayList<ExtensionComponent<SimplePersona>>();
 
         // locate personas from $HUDSON_HOME
         try {
@@ -101,7 +104,7 @@ public class SimplePersonaFinder extends ExtensionFinder {
             try {
                 new URL(imageBase,baseName+ext).openStream().close();
                 // found it.
-                return imageBasePath+baseName+ext;
+                return imageBasePath+'/'+baseName+ext;
             } catch (IOException e) {
                 // not found. try next
             }
@@ -109,9 +112,9 @@ public class SimplePersonaFinder extends ExtensionFinder {
         throw new IOException("No image found that matches "+imageBase+"/"+baseName+".*");
     }
 
-    private void parsePersonaInto(URL xml, URL imageBase, String imageBasePath, Collection<SimplePersona> result) {
+    private void parsePersonaInto(URL xml, URL imageBase, String imageBasePath, Collection<ExtensionComponent<SimplePersona>> result) {
         try {
-            result.add(parsePersona(xml,imageBase,imageBasePath));
+            result.add(new ExtensionComponent<SimplePersona>(parsePersona(xml,imageBase,imageBasePath)));
         } catch (DocumentException e) {
             LOGGER.log(Level.SEVERE, "Faied to load a persona from "+xml,e);
         } catch (IOException e) {
