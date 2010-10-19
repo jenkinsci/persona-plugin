@@ -59,7 +59,7 @@ public class QuotePublisher extends Notifier {
 
     @Override
     public Action getProjectAction(AbstractProject<?, ?> project) {
-        return persona.generateProjectQuote(project);
+        return persona!=null ? persona.generateProjectQuote(project) : null;
     }
 
     @Override
