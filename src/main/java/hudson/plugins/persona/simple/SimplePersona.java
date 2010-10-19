@@ -37,7 +37,7 @@ import java.util.Random;
  * @author Kohsuke Kawaguchi
  */
 public abstract class SimplePersona extends Persona {
-    private final List<String> quotes;
+    private volatile List<String> quotes;
     private final Random random = new Random();
 
     /**
@@ -48,6 +48,10 @@ public abstract class SimplePersona extends Persona {
      */
     protected SimplePersona(String id, List<String> quotes) {
         super(id);
+        this.quotes = quotes;
+    }
+
+    protected void setQuotes(List<String> quotes) {
         this.quotes = quotes;
     }
 
