@@ -11,7 +11,7 @@
   <artifactId>persona</artifactId>
   <packaging>hpi</packaging>
   <name>Hudson Persona Plugin</name>
-  <version>1.1-SNAPSHOT</version>
+  <version>1.1</version>
   <url>http://wiki.hudson-ci.org/display/HUDSON/Persona+Plugin</url>
 
   <developers>
@@ -55,4 +55,10 @@
       <scope>test</scope>
     </dependency>
   </dependencies-->
+
+  <scm>
+    <connection>scm:svn:https://guest@svn.dev.java.net/svn/hudson/tags/persona-1.1</connection>
+    <developerConnection>scm:svn:https://svn.dev.java.net/svn/hudson/tags/persona-1.1</developerConnection>
+    <url>https://hudson.dev.java.net/source/browse/hudson/tags/persona-1.1</url>
+  </scm>
 </project>
