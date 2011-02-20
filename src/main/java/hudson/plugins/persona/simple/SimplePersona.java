@@ -25,6 +25,7 @@ package hudson.plugins.persona.simple;
 
 import hudson.model.AbstractBuild;
 import hudson.model.AbstractProject;
+import hudson.model.Result;
 import hudson.plugins.persona.Persona;
 import hudson.plugins.persona.Quote;
 
@@ -37,7 +38,15 @@ import java.util.Random;
  * @author Kohsuke Kawaguchi
  */
 public abstract class SimplePersona extends Persona {
+
     private volatile List<String> quotes;
+
+    private volatile List<String> quotesSuccess;
+
+    private volatile List<String> quotesFailure;
+
+    private volatile List<String> quotesOther;
+
     private final Random random = new Random();
 
     /**
@@ -45,14 +54,30 @@ public abstract class SimplePersona extends Persona {
      *      Unique identifier of this persona.
      * @param quotes
      *      Collection of quotes.
+     * @param quotesSuccess
+     * 		Collection of success quotes.
+     * @param quotesFailure
+     * 		Collection of failure quotes.
+     * @param quotesOther
+     * 		Collection of other quotes.
      */
-    protected SimplePersona(String id, List<String> quotes) {
+    protected SimplePersona(String id, List<String> quotes,
+            List<String> quotesSuccess, List<String> quotesFailure,
+            List<String> quotesOther) {
         super(id);
         this.quotes = quotes;
+        this.quotesSuccess = quotesSuccess;
+        this.quotesFailure = quotesFailure;
+        this.quotesOther = quotesOther;
     }
 
-    protected void setQuotes(List<String> quotes) {
+    protected void setQuotes(List<String> quotes,
+            List<String> quotesSuccess, List<String> quotesFailure,
+            List<String> quotesOther) {
         this.quotes = quotes;
+        this.quotesSuccess = quotesSuccess;
+        this.quotesFailure = quotesFailure;
+        this.quotesOther = quotesOther;
     }
 
     /**
@@ -64,15 +89,29 @@ public abstract class SimplePersona extends Persona {
 
     @Override
     public Quote generateQuote(AbstractBuild<?, ?> build) {
-        return new QuoteImpl(build,this, getRandomQuoteText());
+        return new QuoteImpl(build, this, getRandomQuoteText(build));
     }
 
-    public synchronized String getRandomQuoteText() {
-        return quotes.get(random.nextInt(quotes.size()));
+    public synchronized String getRandomQuoteText(AbstractBuild<?, ?> build) {
+        String choosenQuote = null;
+        Result r = build.getResult();
+        if ((r == Result.SUCCESS) && !quotesSuccess.isEmpty()) {
+            choosenQuote = quotesSuccess.get(random.nextInt(quotesSuccess.size()));
+        } else if ((r == Result.FAILURE) && !quotesFailure.isEmpty()) {
+            choosenQuote = quotesFailure.get(random.nextInt(quotesFailure.size()));
+        } else if (!quotesOther.isEmpty()) {
+            choosenQuote = quotesOther.get(random.nextInt(quotesOther.size()));
+        }
+
+        if (null == choosenQuote) {
+            choosenQuote = quotes.get(random.nextInt(quotes.size()));
+        }
+
+        return choosenQuote;
     }
 
     @Override
-    public Quote generateProjectQuote(AbstractProject<?,?> project) {
-        return new ProjectQuoteImpl(this,project);
+    public Quote generateProjectQuote(AbstractProject<?, ?> project) {
+        return new ProjectQuoteImpl(this, project);
     }
 }

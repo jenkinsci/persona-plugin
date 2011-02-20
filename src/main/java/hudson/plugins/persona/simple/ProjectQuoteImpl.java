@@ -7,7 +7,8 @@ import hudson.model.AbstractProject;
  * @author Kohsuke Kawaguchi
  */
 public class ProjectQuoteImpl extends AbstractQuoteImpl {
-    public final AbstractProject<?,?> project;
+
+    public final AbstractProject<?, ?> project;
 
     public ProjectQuoteImpl(SimplePersona persona, AbstractProject<?, ?> project) {
         super(persona);
@@ -17,18 +18,27 @@ public class ProjectQuoteImpl extends AbstractQuoteImpl {
     @Override
     public String getQuote() {
         QuoteImpl q = getLastQuote();
-        return q!=null ? q.getQuote() : persona.getRandomQuoteText();
+
+        if (q != null) {
+            return q.getQuote();
+        }
+
+        AbstractBuild<?, ?> b = project.getLastBuild();
+
+        return persona.getRandomQuoteText(b);
     }
 
     @Override
     public Image getImage() {
         QuoteImpl q = getLastQuote();
-        return q!=null ? q.getImage() : persona.getDefaultImage();
+        return q != null ? q.getImage() : persona.getDefaultImage();
     }
 
     private QuoteImpl getLastQuote() {
         AbstractBuild<?, ?> b = project.getLastBuild();
-        if (b==null)    return null;
+        if (b == null) {
+            return null;
+        }
         return b.getAction(QuoteImpl.class);
     }
 }

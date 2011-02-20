@@ -4,6 +4,8 @@ import hudson.model.AbstractBuild;
 import hudson.model.Result;
 import hudson.plugins.persona.simple.Image;
 import hudson.plugins.persona.simple.SimplePersona;
+
+import org.dom4j.Attribute;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
@@ -19,14 +21,21 @@ import java.util.List;
  * @author Kohsuke Kawaguchi
  */
 public class XmlBasedPersona extends SimplePersona {
+
     public final URL xml;
+
     private final URL imageBase;
+
     private final String imageBasePath;
 
     private String icon;
+
     private String success;
+
     private String failure;
+
     private String other;
+
     private String displayName;
 
     /**
@@ -39,11 +48,11 @@ public class XmlBasedPersona extends SimplePersona {
      */
     public static XmlBasedPersona create(URL xml, URL imageBase, String imageBasePath) throws DocumentException, IOException {
         Element r = new SAXReader().read(xml).getRootElement();
-        return new XmlBasedPersona(r,xml,imageBase,imageBasePath);
+        return new XmlBasedPersona(r, xml, imageBase, imageBasePath);
     }
 
     private XmlBasedPersona(Element r, URL xml, URL imageBase, String imageBasePath) throws IOException, DocumentException {
-        super(r.attributeValue("id"),new ArrayList<String>());
+        super(r.attributeValue("id"), new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>());
 
         this.xml = xml;
         this.imageBase = imageBase;
@@ -58,14 +67,14 @@ public class XmlBasedPersona extends SimplePersona {
     private String findImage(URL imageBase, String imageBasePath, String baseName) throws IOException {
         for (String ext : EXTENSIONS) {
             try {
-                new URL(imageBase,baseName+ext).openStream().close();
+                new URL(imageBase, baseName + ext).openStream().close();
                 // found it.
-                return imageBasePath+'/'+baseName+ext;
+                return imageBasePath + '/' + baseName + ext;
             } catch (IOException e) {
                 // not found. try next
             }
         }
-        throw new IOException("No image found that matches "+imageBase+"/"+baseName+".*");
+        throw new IOException("No image found that matches " + imageBase + "/" + baseName + ".*");
     }
 
     /**
@@ -81,19 +90,38 @@ public class XmlBasedPersona extends SimplePersona {
         this.displayName = r.attributeValue("displayName");
 
         List<String> quotes = new ArrayList<String>();
-        for (Element e : (List<Element>)r.elements("quote")) {
-            quotes.add(e.getTextTrim());
+        List<String> quotesSuccess = new ArrayList<String>();
+        List<String> quotesFailure = new ArrayList<String>();
+        List<String> quotesOther = new ArrayList<String>();
+        for (Element e : (List<Element>) r.elements("quote")) {
+            Attribute attribute = e.attribute("type");
+            String quote = e.getTextTrim();
+
+            if (null == attribute) {
+                quotes.add(quote);
+            } else if ("success".equalsIgnoreCase(attribute.getText())) {
+                quotesSuccess.add(quote);
+            } else if ("failure".equalsIgnoreCase(attribute.getText())) {
+                quotesFailure.add(quote);
+            } else if ("other".equalsIgnoreCase(attribute.getText())) {
+                quotesOther.add(quote);
+            } else {
+                // unrecognized attribute type, use default quote
+                quotes.add(quote);
+            }
         }
-        setQuotes(quotes);
+        setQuotes(quotes, quotesSuccess, quotesFailure, quotesOther);
     }
 
     @Override
-    public Image getImage(AbstractBuild<?,?> build) {
+    public Image getImage(AbstractBuild<?, ?> build) {
         Result r = build.getResult();
-        if (r== Result.SUCCESS)
+        if (r == Result.SUCCESS) {
             return new Image(icon, success);
-        if (r== Result.FAILURE)
+        }
+        if (r == Result.FAILURE) {
             return new Image(icon, failure);
+        }
         return new Image(icon, other);
     }
 
@@ -106,6 +134,6 @@ public class XmlBasedPersona extends SimplePersona {
         return displayName;
     }
 
-    private static final String[] EXTENSIONS = {".jpg",".jpeg",".png",".gif",
-                                                ".JPG",".JPEG",".PNG",".GIF"};
+    private static final String[] EXTENSIONS = {".jpg", ".jpeg", ".png", ".gif",
+        ".JPG", ".JPEG", ".PNG", ".GIF"};
 }
