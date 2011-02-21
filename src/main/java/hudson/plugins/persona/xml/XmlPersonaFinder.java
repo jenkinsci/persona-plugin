@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright (c) 2010, InfraDNA, Inc.
+ * Copyright (c) 2010-2011, InfraDNA, Inc.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -30,6 +30,7 @@ import hudson.FilePath;
 import hudson.PluginWrapper;
 import hudson.model.Hudson;
 import hudson.plugins.persona.Persona;
+import java.io.File;
 import org.dom4j.DocumentException;
 
 import java.io.IOException;
@@ -54,7 +55,7 @@ public class XmlPersonaFinder extends ExtensionFinder {
 
         List<ExtensionComponent<XmlBasedPersona>> r = new ArrayList<ExtensionComponent<XmlBasedPersona>>();
 
-        // locate personas from $HUDSON_HOME
+        // locate personas from $HUDSON_HOME or $JENKINS_HOME
         try {
             FilePath baseDir = new FilePath(hudson.getRootDir());
             for (FilePath xml : baseDir.list("persona/**/*.xml")) {
@@ -72,14 +73,30 @@ public class XmlPersonaFinder extends ExtensionFinder {
 
         // locate personas from plugins
         for (PluginWrapper pw : hudson.getPluginManager().getPlugins()) {
-            URL xml;
             try {
-                xml = new URL(pw.baseResourceURL,"persona.xml");
-                xml.openStream().close();
+                FilePath baseDir = new FilePath(new File(pw.baseResourceURL.getFile()));
+                // support persona-1.0,1,1 style
+                FilePath personaXML = baseDir.child("persona.xml");
+                if (personaXML.exists()) {
+                    LOGGER.log(Level.INFO, "loading old style persona from {0}.hpi", pw.getShortName());
+                    URL url = personaXML.toURI().toURL();
+                    parsePersonaInto(url, pw.baseResourceURL, "plugin/" + pw.getShortName(), r);
+                    continue;
+                }
+                // support persona-1.2 or newer style
+                for (FilePath xml : baseDir.list("**/persona.xml")) {
+                    LOGGER.log(Level.INFO, "loading 1.2 or newer style persona from {0}.hpi", pw.getShortName());
+                    URL url = xml.toURI().toURL();
+                    parsePersonaInto(url,
+                            xml.getParent().toURI().toURL(),
+                            "plugin/" + pw.getShortName() + "/" + xml.getParent().getRemote().substring(baseDir.getRemote().length() + 1), r);
+                }
             } catch (IOException e) {
                 continue;   // no such file
+            } catch (InterruptedException e) {
+                // all local processing. can't happen
+                throw new Error(e);
             }
-            parsePersonaInto(xml,pw.baseResourceURL,"plugin/"+pw.getShortName(),r);
         }
 
         return (List)r;
