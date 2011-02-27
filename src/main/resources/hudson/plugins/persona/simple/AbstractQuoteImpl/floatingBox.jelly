@@ -28,10 +28,10 @@ THE SOFTWARE.
   <img src="${rootURL}/${img.smallIconUrl}" width="48" height="48" /> ${action.quote}
   <script>
       Element.setStyle($('main-table'), {
-          'background-image': 'none'
+          'background-image': 'url(${rootURL}/${img.backgroundImageUrl})'
       });
       Element.setStyle($('main-panel'), {
-          'background-image': 'url(${rootURL}/${img.backgroundImageUrl})',
+          'background-image': 'none',
           'background-repeat': 'no-repeat',
           'background-position': 'bottom right',
           'padding-bottom': '270px'
