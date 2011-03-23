@@ -34,7 +34,7 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * Serves $HUDSON_HOME/persona from /persona.
+ * Serves $JENKINS_HOME/persona from /persona.
  *
  * @author Kohsuke Kawaguchi
  */
