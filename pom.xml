@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.jenkins-ci.plugins</groupId>
     <artifactId>plugin</artifactId>
-    <version>1.396</version>
+    <version>1.398</version>
   </parent>
 
   <artifactId>persona</artifactId>
@@ -33,6 +33,7 @@
   <scm>
    <connection>scm:git:https://github.com/jenkinsci/persona-plugin.git</connection>
    <developerConnection>scm:git:git@github.com:jenkinsci/persona-plugin.git</developerConnection>
+   <url>https://github.com/jenkinsci/persona-plugin</url>
   </scm>
   
   <repositories>
