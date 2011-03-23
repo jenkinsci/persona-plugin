@@ -10,7 +10,7 @@
   <artifactId>persona</artifactId>
   <packaging>hpi</packaging>
   <name>Jenkins Persona Plugin</name>
-  <version>1.3</version>
+  <version>1.4-SNAPSHOT</version>
   <url>http://wiki.jenkins-ci.org/display/JENKINS/Persona+Plugin</url>
 
   <properties>
