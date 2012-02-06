@@ -91,7 +91,7 @@ public class XmlPersonaFinder extends ExtensionFinder {
                             xml.getParent().toURI().toURL(),
                             "plugin/" + pw.getShortName() + "/" + xml.getParent().getRemote().substring(baseDir.getRemote().length() + 1), r);
                 }
-            } catch (IOException e) {
+            } catch (Exception e) {
                 continue;   // no such file
             } catch (InterruptedException e) {
                 // all local processing. can't happen
