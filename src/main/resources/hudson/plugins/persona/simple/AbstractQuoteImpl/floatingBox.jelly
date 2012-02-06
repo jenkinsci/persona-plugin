@@ -21,20 +21,13 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -->
-<?jelly escape-by-default='true'?>
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:i="jelly:fmt" xmlns:local="local">
   <j:set var="img" value="${action.image}"/>
-
-  <img src="${rootURL}/${img.smallIconUrl}" width="48" height="48" /> ${action.quote}
-  <script>
-      Element.setStyle($('main-table'), {
-          'background-image': 'url(${rootURL}/${img.backgroundImageUrl})'
-      });
-      Element.setStyle($('main-panel'), {
-          'background-image': 'none',
-          'background-repeat': 'no-repeat',
-          'background-position': 'bottom right',
-          'padding-bottom': '270px'
-      });
-  </script>
+  
+  <div style="max-width:400px;">
+  <img src="${rootURL}/${img.smallIconUrl}" width="48" height="48" />
+  Foo Bar dit: ${action.quote}
+  <img src="${rootURL}/${img.backgroundImageUrl}" width="100%"/>  
+  </div>
+  
 </j:jelly>
