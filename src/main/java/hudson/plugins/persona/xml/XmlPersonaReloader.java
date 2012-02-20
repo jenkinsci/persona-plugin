@@ -7,6 +7,7 @@ import hudson.Util;
 import hudson.model.Hudson;
 import hudson.model.RootAction;
 import hudson.plugins.persona.Persona;
+import org.dom4j.DocumentException;
 import org.kohsuke.stapler.StaplerResponse;
 
 import java.io.IOException;
@@ -39,7 +40,12 @@ public class XmlPersonaReloader implements RootAction {
         ExtensionList<Persona> all = Persona.all();
 
         for (XmlBasedPersona p : Util.filter(all,XmlBasedPersona.class)) {
-            w.println("Reloaded "+p.xml);
+			try {
+				p.reload();
+				w.println("Reloaded "+p.xml);
+			} catch (DocumentException de) {
+				w.println("Error on reloading " + p.xml);
+			}
         }
 
         // find new personas
