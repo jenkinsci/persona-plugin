@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright (c) 2010, InfraDNA, Inc.
+ * Copyright (c) 2010-2011, InfraDNA, Inc.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,28 +21,38 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package hudson.plugins.persona.simple;
+package hudson.plugins.persona;
 
-import hudson.model.InvisibleAction;
-import hudson.plugins.persona.Quote;
-import hudson.plugins.persona.RandomPersona;
+import hudson.Extension;
+import hudson.ExtensionComponent;
+import hudson.ExtensionFinder;
+import hudson.model.Hudson;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 /**
- * Default implementation of quote that renders a simple non-localized text.
+ * @author whren
  *
- * @author Kohsuke Kawaguchi
  */
-public abstract class AbstractQuoteImpl extends InvisibleAction implements Quote {
-    public final SimplePersona persona;
+@Extension
+public class RandomPersonaFinder extends ExtensionFinder {
+    @Override
+    public <T> Collection<ExtensionComponent<T>> find(Class<T> type, Hudson hudson) {
+        if (type != Persona.class) {
+			return Collections.emptyList();
+		}
 
-    public AbstractQuoteImpl(SimplePersona persona) {
-    	if (persona instanceof RandomPersona) {
-    		this.persona = ((RandomPersona) persona).getCurrentPersona();
-    	} else {
-    		this.persona = persona;
-    	}
+        List<ExtensionComponent<RandomPersona>> r = new ArrayList<ExtensionComponent<RandomPersona>>();
+
+        parsePersonaInto(r);
+        
+        return (List)r;
     }
 
-    public abstract String getQuote();
-    public abstract Image getImage();
+    private void parsePersonaInto(Collection<ExtensionComponent<RandomPersona>> result) {
+    	result.add(new ExtensionComponent<RandomPersona>(RandomPersona.create()));
+    }
 }
