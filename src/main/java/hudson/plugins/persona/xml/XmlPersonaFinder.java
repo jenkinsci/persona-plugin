@@ -51,7 +51,9 @@ import java.util.logging.Logger;
 public class XmlPersonaFinder extends ExtensionFinder {
     @Override
     public <T> Collection<ExtensionComponent<T>> find(Class<T> type, Hudson hudson) {
-        if (type!=Persona.class)    return Collections.emptyList();
+        if ((type!=Persona.class) && (type != XmlBasedPersona.class)) {
+			return Collections.emptyList();
+		}
 
         List<ExtensionComponent<XmlBasedPersona>> r = new ArrayList<ExtensionComponent<XmlBasedPersona>>();
 
