@@ -106,9 +106,9 @@ public class XmlPersonaFinder extends ExtensionFinder {
         try {
             result.add(new ExtensionComponent<XmlBasedPersona>(XmlBasedPersona.create(xml,imageBase,imageBasePath)));
         } catch (DocumentException e) {
-            LOGGER.log(Level.SEVERE, "Faied to load a persona from "+xml,e);
+            LOGGER.log(Level.SEVERE, "Failed to load a persona from "+xml,e);
         } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Faied to load a persona from "+xml,e);
+            LOGGER.log(Level.SEVERE, "Failed to load a persona from "+xml,e);
         }
     }
 
