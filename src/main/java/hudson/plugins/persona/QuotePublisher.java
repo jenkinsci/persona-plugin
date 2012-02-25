@@ -42,6 +42,7 @@ import java.io.IOException;
  * @author Kohsuke Kawaguchi
  */
 public class QuotePublisher extends Notifier {
+
     public final Persona persona;
 
     @DataBoundConstructor
@@ -50,7 +51,7 @@ public class QuotePublisher extends Notifier {
     }
 
     public String getPersonaId() {
-        return persona!=null ? persona.id : null;
+        return persona != null ? persona.id : null;
     }
 
     public BuildStepMonitor getRequiredMonitorService() {
@@ -59,23 +60,24 @@ public class QuotePublisher extends Notifier {
 
     @Override
     public Action getProjectAction(AbstractProject<?, ?> project) {
-        return persona!=null ? persona.generateProjectQuote(project) : null;
+        return persona != null ? persona.generateProjectQuote(project) : null;
     }
 
     @Override
     public boolean perform(AbstractBuild<?, ?> build, Launcher launcher, BuildListener listener) throws InterruptedException, IOException {
-        if (persona !=null) {
-        	if (persona instanceof RandomPersona) {
-        		((RandomPersona) persona).resetCurrentPersona();
-        	}
-        	
-			build.getActions().add(persona.generateQuote(build));
-		}
+        if (persona != null) {
+            if (persona instanceof RandomPersona) {
+                ((RandomPersona) persona).resetCurrentPersona();
+            }
+
+            build.getActions().add(persona.generateQuote(build));
+        }
         return true;
     }
 
     @Extension
     public static class DescriptorImpl extends BuildStepDescriptor<Publisher> {
+
         @Override
         public boolean isApplicable(Class<? extends AbstractProject> jobType) {
             return true;
@@ -89,7 +91,7 @@ public class QuotePublisher extends Notifier {
         public ListBoxModel doFillPersonaIdItems() {
             ListBoxModel r = new ListBoxModel();
             for (Persona p : Persona.all()) {
-                r.add(p.getDisplayName(),p.id);
+                r.add(p.getDisplayName(), p.id);
             }
             return r;
         }

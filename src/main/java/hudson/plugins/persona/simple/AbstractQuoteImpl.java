@@ -33,16 +33,18 @@ import hudson.plugins.persona.RandomPersona;
  * @author Kohsuke Kawaguchi
  */
 public abstract class AbstractQuoteImpl extends InvisibleAction implements Quote {
+
     public final SimplePersona persona;
 
     public AbstractQuoteImpl(SimplePersona persona) {
-    	if (persona instanceof RandomPersona) {
-    		this.persona = ((RandomPersona) persona).getCurrentPersona();
-    	} else {
-    		this.persona = persona;
-    	}
+        if (persona instanceof RandomPersona) {
+            this.persona = ((RandomPersona) persona).getCurrentPersona();
+        } else {
+            this.persona = persona;
+        }
     }
 
     public abstract String getQuote();
+
     public abstract Image getImage();
 }

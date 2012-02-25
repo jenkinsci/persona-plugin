@@ -36,129 +36,124 @@ import java.util.Random;
 
 /**
  * Random persona implementation on top of SimplePersona
- * 
+ *
  * @author whren
  *
  */
 public class RandomPersona extends SimplePersona {
-	/**
-	 * Random persona display name
-	 */
-	public static final String RANDOM_PERSONA_DISPLAYNAME = "Random Persona";
-	
-	/**
-	 * Random persona id
-	 */
-	public static final String RANDOM_PERSONA_ID = "RandomPersonaId";
-	
-	/**
-	 * Persona Randomizer
-	 */
+
+    /**
+     * Random persona display name
+     */
+    public static final String RANDOM_PERSONA_DISPLAYNAME = "Random Persona";
+
+    /**
+     * Random persona id
+     */
+    public static final String RANDOM_PERSONA_ID = "RandomPersonaId";
+
+    /**
+     * Persona Randomizer
+     */
     private static final Random random = new Random();
-    
+
     private Map<AbstractBuild<?, ?>, XmlBasedPersona> mapPersonas =
-    	new HashMap<AbstractBuild<?, ?>, XmlBasedPersona>();
-    
+            new HashMap<AbstractBuild<?, ?>, XmlBasedPersona>();
+
     private XmlBasedPersona currentPersona;
-    
+
     /**
      * Creates a RandomPersona
-     * 
-     * @return
-     * 		A newly created RandomPersona
+     *
+     * @return A newly created RandomPersona
      */
     public static RandomPersona create() {
-    	return new RandomPersona();
+        return new RandomPersona();
     }
-    
-	/**
-	 * Default constructor
-	 */
-	private RandomPersona() {
-		super(RANDOM_PERSONA_ID, null, null, null, null);
-	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Image getDefaultImage() {
-		return getCurrentPersona().getDefaultImage();
-	}
+    /**
+     * Default constructor
+     */
+    private RandomPersona() {
+        super(RANDOM_PERSONA_ID, null, null, null, null);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Image getImage(AbstractBuild<?, ?> build) {
-		return getCurrentPersona().getImage(build);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Image getDefaultImage() {
+        return getCurrentPersona().getDefaultImage();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public String getDisplayName() {
-		return RANDOM_PERSONA_DISPLAYNAME;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Image getImage(AbstractBuild<?, ?> build) {
+        return getCurrentPersona().getImage(build);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
+    /**
+     * {@inheritDoc}
+     */
+    public String getDisplayName() {
+        return RANDOM_PERSONA_DISPLAYNAME;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public synchronized String getRandomQuoteText(AbstractBuild<?, ?> build) {
-		return getCurrentPersona().getDisplayName()
-			+ " - "
-			+ getCurrentPersona().getRandomQuoteText(build);
+        return getCurrentPersona().getDisplayName()
+                + " - "
+                + getCurrentPersona().getRandomQuoteText(build);
     }
-	
-	/**
-	 * Returns the build associated persona
-	 * 
-	 * @param build
-	 * 			the build from wich to retrieve the associated persona
-	 * @return
-	 * 			persona associated to the build
-	 */
-	public XmlBasedPersona getPersona(AbstractBuild<?,?> build) {
-		return mapPersonas.get(build);
-	}
-	
-	/**
-	 * Return the current persona, generate one if non existent
-	 * 
-	 * @return
-	 * 			The current persona
-	 */
-	public XmlBasedPersona getCurrentPersona() {
-		if (null == currentPersona) {
-			currentPersona = resetCurrentPersona();
-		}
-		
-		return currentPersona;
-	}
-	
-	/**
-	 * Reset the current persona and return a new one
-	 * 
-	 * @return
-	 * 			The new current persona
-	 */
-	public XmlBasedPersona resetCurrentPersona() {
-		currentPersona = randomPersona();
-		return currentPersona;
-	}
-	
+
+    /**
+     * Returns the build associated persona
+     *
+     * @param build the build from wich to retrieve the associated persona
+     * @return persona associated to the build
+     */
+    public XmlBasedPersona getPersona(AbstractBuild<?, ?> build) {
+        return mapPersonas.get(build);
+    }
+
+    /**
+     * Return the current persona, generate one if non existent
+     *
+     * @return The current persona
+     */
+    public XmlBasedPersona getCurrentPersona() {
+        if (null == currentPersona) {
+            currentPersona = resetCurrentPersona();
+        }
+
+        return currentPersona;
+    }
+
+    /**
+     * Reset the current persona and return a new one
+     *
+     * @return The new current persona
+     */
+    public XmlBasedPersona resetCurrentPersona() {
+        currentPersona = randomPersona();
+        return currentPersona;
+    }
+
     /**
      * Returns a random persona form all personas
-     * 
-     * @return
-     * 		A random persona
+     *
+     * @return A random persona
      */
     public static XmlBasedPersona randomPersona() {
-    	ExtensionList<XmlBasedPersona> personas = allXmlBased();
-    	return personas.get(random.nextInt(personas.size()));
+        ExtensionList<XmlBasedPersona> personas = allXmlBased();
+        return personas.get(random.nextInt(personas.size()));
     }
-    
+
     /**
      * Returns all the registered {@link XmlBasedPersona}s.
      */

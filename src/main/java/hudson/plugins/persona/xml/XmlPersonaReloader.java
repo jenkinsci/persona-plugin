@@ -20,6 +20,7 @@ import java.io.PrintWriter;
  */
 @Extension
 public class XmlPersonaReloader implements RootAction {
+
     public String getIconFileName() {
         return null;
     }
@@ -39,20 +40,21 @@ public class XmlPersonaReloader implements RootAction {
 
         ExtensionList<Persona> all = Persona.all();
 
-        for (XmlBasedPersona p : Util.filter(all,XmlBasedPersona.class)) {
-			try {
-				p.reload();
-				w.println("Reloaded "+p.xml);
-			} catch (DocumentException de) {
-				w.println("Error on reloading " + p.xml);
-			}
+        for (XmlBasedPersona p : Util.filter(all, XmlBasedPersona.class)) {
+            try {
+                p.reload();
+                w.println("Reloaded " + p.xml);
+            } catch (DocumentException de) {
+                w.println("Error on reloading " + p.xml);
+            }
         }
 
         // find new personas
         for (ExtensionComponent<Persona> c : new XmlPersonaFinder().find(Persona.class, Hudson.getInstance())) {
-            XmlBasedPersona p = (XmlBasedPersona)c.getInstance();
-            if (Persona.byId(p.id)==null)
-                all.add(all.size(),p);
+            XmlBasedPersona p = (XmlBasedPersona) c.getInstance();
+            if (Persona.byId(p.id) == null) {
+                all.add(all.size(), p);
+            }
         }
     }
 }

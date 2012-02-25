@@ -39,20 +39,21 @@ import java.util.List;
  */
 @Extension
 public class RandomPersonaFinder extends ExtensionFinder {
+
     @Override
     public <T> Collection<ExtensionComponent<T>> find(Class<T> type, Hudson hudson) {
         if (type != Persona.class) {
-			return Collections.emptyList();
-		}
+            return Collections.emptyList();
+        }
 
         List<ExtensionComponent<RandomPersona>> r = new ArrayList<ExtensionComponent<RandomPersona>>();
 
         parsePersonaInto(r);
-        
-        return (List)r;
+
+        return (List) r;
     }
 
     private void parsePersonaInto(Collection<ExtensionComponent<RandomPersona>> result) {
-    	result.add(new ExtensionComponent<RandomPersona>(RandomPersona.create()));
+        result.add(new ExtensionComponent<RandomPersona>(RandomPersona.create()));
     }
 }
