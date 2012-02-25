@@ -83,7 +83,8 @@ public class RandomPersona extends SimplePersona {
      */
     @Override
     public Image getDefaultImage() {
-        return getCurrentPersona().getDefaultImage();
+        XmlBasedPersona persona = getCurrentPersona();
+        return persona != null ? persona.getDefaultImage() : null;
     }
 
     /**
@@ -91,7 +92,8 @@ public class RandomPersona extends SimplePersona {
      */
     @Override
     public Image getImage(AbstractBuild<?, ?> build) {
-        return getCurrentPersona().getImage(build);
+        XmlBasedPersona persona = getCurrentPersona();
+        return persona != null ? persona.getImage(build) : null;
     }
 
     /**
@@ -106,9 +108,8 @@ public class RandomPersona extends SimplePersona {
      */
     @Override
     public synchronized String getRandomQuoteText(AbstractBuild<?, ?> build) {
-        return getCurrentPersona().getDisplayName()
-                + " - "
-                + getCurrentPersona().getRandomQuoteText(build);
+        XmlBasedPersona persona = getCurrentPersona();
+        return persona == null ? null : persona.getDisplayName() + " - " + persona.getRandomQuoteText(build);
     }
 
     /**
@@ -151,6 +152,9 @@ public class RandomPersona extends SimplePersona {
      */
     public static XmlBasedPersona randomPersona() {
         ExtensionList<XmlBasedPersona> personas = allXmlBased();
+        if (allXmlBased().isEmpty()) {
+            return null;
+        }
         return personas.get(random.nextInt(personas.size()));
     }
 

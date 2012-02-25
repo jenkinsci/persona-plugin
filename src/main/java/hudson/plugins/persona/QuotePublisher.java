@@ -66,13 +66,13 @@ public class QuotePublisher extends Notifier {
 
     @Override
     public boolean perform(AbstractBuild<?, ?> build, Launcher launcher, BuildListener listener) throws InterruptedException, IOException {
+        if (persona instanceof RandomPersona) {
+            ((RandomPersona) persona).resetCurrentPersona();
+        }
         if (persona != null) {
-            if (persona instanceof RandomPersona) {
-                ((RandomPersona) persona).resetCurrentPersona();
-            }
-
             build.getActions().add(persona.generateQuote(build));
         }
+        
         return true;
     }
 
