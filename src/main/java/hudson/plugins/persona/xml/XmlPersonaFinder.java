@@ -66,6 +66,8 @@ public class XmlPersonaFinder extends ExtensionFinder {
                         xml.getParent().toURI().toURL(),
                         xml.getParent().getRemote().substring(baseDir.getRemote().length()+1).replace('\\','/'),r);
             }
+        } catch (RuntimeException e) {
+            LOGGER.log(Level.SEVERE, "Failed to load personas",e);
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "Failed to load personas",e);
         } catch (InterruptedException e) {
@@ -93,6 +95,8 @@ public class XmlPersonaFinder extends ExtensionFinder {
                             xml.getParent().toURI().toURL(),
                             "plugin/" + pw.getShortName() + "/" + xml.getParent().getRemote().substring(baseDir.getRemote().length() + 1), r);
                 }
+            } catch (RuntimeException e) {
+                continue;   // FilePath#list throws BuildException
             } catch (IOException e) {
                 continue;   // no such file
             } catch (InterruptedException e) {
