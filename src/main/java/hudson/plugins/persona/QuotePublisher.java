@@ -23,6 +23,7 @@
  */
 package hudson.plugins.persona;
 
+import hudson.plugins.persona.random.RandomPersona;
 import hudson.Extension;
 import hudson.Launcher;
 import hudson.model.AbstractBuild;

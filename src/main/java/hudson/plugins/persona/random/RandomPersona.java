@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package hudson.plugins.persona;
+package hudson.plugins.persona.random;
 
 import hudson.ExtensionList;
 import hudson.model.AbstractBuild;

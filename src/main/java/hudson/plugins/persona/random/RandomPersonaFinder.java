@@ -21,12 +21,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package hudson.plugins.persona;
+package hudson.plugins.persona.random;
 
 import hudson.Extension;
 import hudson.ExtensionComponent;
 import hudson.ExtensionFinder;
 import hudson.model.Hudson;
+import hudson.plugins.persona.Persona;
 
 import java.util.ArrayList;
 import java.util.Collection;

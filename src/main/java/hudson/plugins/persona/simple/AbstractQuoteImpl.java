@@ -25,7 +25,7 @@ package hudson.plugins.persona.simple;
 
 import hudson.model.InvisibleAction;
 import hudson.plugins.persona.Quote;
-import hudson.plugins.persona.RandomPersona;
+import hudson.plugins.persona.random.RandomPersona;
 
 /**
  * Default implementation of quote that renders a simple non-localized text.
