@@ -30,8 +30,6 @@ import hudson.plugins.persona.simple.Image;
 import hudson.plugins.persona.simple.SimplePersona;
 import hudson.plugins.persona.xml.XmlBasedPersona;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 
 /**
@@ -56,9 +54,6 @@ public class RandomPersona extends SimplePersona {
      * Persona Randomizer
      */
     private static final Random random = new Random();
-
-    private Map<AbstractBuild<?, ?>, XmlBasedPersona> mapPersonas =
-            new HashMap<AbstractBuild<?, ?>, XmlBasedPersona>();
 
     private XmlBasedPersona currentPersona;
 
@@ -110,16 +105,6 @@ public class RandomPersona extends SimplePersona {
     public synchronized String getRandomQuoteText(AbstractBuild<?, ?> build) {
         XmlBasedPersona persona = getCurrentPersona();
         return persona == null ? null : persona.getDisplayName() + " - " + persona.getRandomQuoteText(build);
-    }
-
-    /**
-     * Returns the build associated persona
-     *
-     * @param build the build from wich to retrieve the associated persona
-     * @return persona associated to the build
-     */
-    public XmlBasedPersona getPersona(AbstractBuild<?, ?> build) {
-        return mapPersonas.get(build);
     }
 
     /**
