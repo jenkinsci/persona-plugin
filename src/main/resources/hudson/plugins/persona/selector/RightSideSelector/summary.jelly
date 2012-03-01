@@ -25,14 +25,11 @@ THE SOFTWARE.
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:i="jelly:fmt" xmlns:local="local">
   <j:set var="img" value="${action.image}"/>
   
-  <div style="max-width:400px;">
-     <table border="0"> 
-       <tr>
-         <td><img src="${rootURL}/${img.smallIconUrl}" width="48" height="48" /></td>
-         <td style="vertical-align: middle;">${action.quote}</td>
-       </tr>
-     </table>
-  </div>
+  <tr>
+    <td><img src="${rootURL}/${img.smallIconUrl}" width="48" height="48" /></td>
+    <td style="vertical-align: middle;"><div style="max-width: 400px;">${action.quote}</div></td>
+  </tr>
+  
   <img src="${rootURL}/${img.backgroundImageUrl}" />  
 
 </j:jelly>
