@@ -1,7 +1,7 @@
 <!--
 The MIT License
 
-Copyright (c) 2009 Cliffano Subagio
+Copyright (c) 2012, Seiji Sogabe
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -24,17 +24,17 @@ THE SOFTWARE.
 <?jelly escape-by-default='true'?>
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:i="jelly:fmt" xmlns:local="local">
   <j:set var="img" value="${action.image}"/>
-
-  <img src="${rootURL}/${img.smallIconUrl}" width="48" height="48" /> ${action.quote}
-  <script>
-      Element.setStyle($('main-table'), {
-          'background-image': 'url(${rootURL}/${img.backgroundImageUrl})'
-      });
-      Element.setStyle($('main-panel'), {
-          'background-image': 'none',
-          'background-repeat': 'no-repeat',
-          'background-position': 'bottom right',
-          'padding-bottom': '270px'
-      });
-  </script>
-</j:jelly>
+  
+  <div style="max-width:400px;">
+     <table border="0"> 
+       <tr>
+         <td><img src="${rootURL}/${img.smallIconUrl}" width="48" height="48" /></td>
+         <td style="vertical-align: middle;">${action.quote}</td>
+       </tr>
+     </table>
+  </div>
+  <div style="text-align: right;">
+    <img src="${rootURL}/${img.backgroundImageUrl}" />  
+  </div>
+  
+ </j:jelly>
