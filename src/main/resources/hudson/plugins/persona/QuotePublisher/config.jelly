@@ -1,7 +1,7 @@
 <!--
 The MIT License
 
-Copyright (c) 2010, InfraDNA, Inc.
+Copyright (c) 2010-2012, InfraDNA, Inc., Seiji Sogabe
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -26,4 +26,6 @@ THE SOFTWARE.
   <f:entry title="${%Persona}" field="personaId">
     <f:select />
   </f:entry>
+  <f:dropdownDescriptorSelector title="${%Location}" field="locationSelector" 
+    default="${descriptor.defaultLocationSelector}"/>
 </j:jelly>

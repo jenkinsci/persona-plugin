@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright (c) 2010-2012, InfraDNA, Inc., Seiji Sogabe
+ * Copyright (c) 2012, Seiji Sogabe
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,33 +21,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package hudson.plugins.persona.simple;
+package hudson.plugins.persona.selector;
 
-import hudson.model.InvisibleAction;
-import hudson.plugins.persona.Quote;
-import hudson.plugins.persona.random.RandomPersona;
-import hudson.plugins.persona.selector.LocationSelector;
+import hudson.ExtensionPoint;
+import hudson.model.AbstractDescribableImpl;
 
 /**
- * Default implementation of quote that renders a simple non-localized text.
- *
- * @author Kohsuke Kawaguchi
+ * LocationSelector
+ * 
+ * @author Seiji Sogabe
  */
-public abstract class AbstractQuoteImpl extends InvisibleAction implements Quote {
+public abstract class LocationSelector extends AbstractDescribableImpl<LocationSelector> implements ExtensionPoint {
 
-    public final SimplePersona persona;
-
-    public AbstractQuoteImpl(SimplePersona persona) {
-        if (persona instanceof RandomPersona) {
-            this.persona = ((RandomPersona) persona).getCurrentPersona();
-        } else {
-            this.persona = persona;
-        }
+    @Override
+    public LocationSelectorDescriptor getDescriptor() {
+        return (LocationSelectorDescriptor) super.getDescriptor();
     }
-
-    public abstract String getQuote();
-
-    public abstract Image getImage();
-    
-    public abstract LocationSelector getLocationSelector();
 }

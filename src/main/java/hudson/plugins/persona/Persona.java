@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright (c) 2010, InfraDNA, Inc.
+ * Copyright (c) 2010-2012, InfraDNA, Inc., Seiji Sogabe
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -33,6 +33,7 @@ import hudson.model.Hudson;
 import hudson.model.Items;
 import hudson.model.ModelObject;
 import hudson.model.Run;
+import hudson.plugins.persona.selector.LocationSelector;
 import hudson.plugins.persona.simple.AbstractQuoteImpl;
 
 /**
@@ -62,14 +63,14 @@ public abstract class Persona implements ExtensionPoint, ModelObject {
      *
      * @see AbstractQuoteImpl
      */
-    public abstract Quote generateQuote(AbstractBuild<?,?> build);
+    public abstract Quote generateQuote(AbstractBuild<?,?> build, LocationSelector selector);
 
     /**
      * Generates a random quote for the project top page.
      *
      * @see AbstractQuoteImpl
      */
-    public abstract Quote generateProjectQuote(AbstractProject<?,?> project);
+    public abstract Quote generateProjectQuote(AbstractProject<?,?> project, LocationSelector selector);
 
     /**
      * Returns all the registered {@link Persona}s.

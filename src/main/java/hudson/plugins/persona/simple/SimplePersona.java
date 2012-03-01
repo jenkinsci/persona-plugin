@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright (c) 2010, InfraDNA, Inc.
+ * Copyright (c) 2010-2012, InfraDNA, Inc., Seiji Sogabe
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,6 +28,7 @@ import hudson.model.AbstractProject;
 import hudson.model.Result;
 import hudson.plugins.persona.Persona;
 import hudson.plugins.persona.Quote;
+import hudson.plugins.persona.selector.LocationSelector;
 
 import java.util.List;
 import java.util.Random;
@@ -88,8 +89,8 @@ public abstract class SimplePersona extends Persona {
     public abstract Image getDefaultImage();
 
     @Override
-    public Quote generateQuote(AbstractBuild<?, ?> build) {
-        return new QuoteImpl(build, this, getRandomQuoteText(build));
+    public Quote generateQuote(AbstractBuild<?, ?> build, LocationSelector selector) {
+        return new QuoteImpl(build, this, getRandomQuoteText(build), selector);
     }
 
     public synchronized String getRandomQuoteText(AbstractBuild<?, ?> build) {
@@ -111,7 +112,7 @@ public abstract class SimplePersona extends Persona {
     }
 
     @Override
-    public Quote generateProjectQuote(AbstractProject<?, ?> project) {
-        return new ProjectQuoteImpl(this, project);
+    public Quote generateProjectQuote(AbstractProject<?, ?> project, LocationSelector selector) {
+        return new ProjectQuoteImpl(this, project, selector);
     }
 }
