@@ -25,6 +25,7 @@ package hudson.plugins.persona.simple;
 
 import hudson.model.AbstractBuild;
 import hudson.model.AbstractProject;
+import hudson.plugins.persona.selector.BottomLeftSelector;
 import hudson.plugins.persona.selector.LocationSelector;
 
 /**
@@ -66,7 +67,7 @@ public class ProjectQuoteImpl extends AbstractQuoteImpl {
 
     @Override
     public LocationSelector getLocationSelector() {
-        return locationSelector;
+        return locationSelector != null ? locationSelector : new BottomLeftSelector();
     }
     
     private QuoteImpl getLastQuote() {
