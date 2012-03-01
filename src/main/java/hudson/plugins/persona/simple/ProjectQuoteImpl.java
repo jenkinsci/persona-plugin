@@ -45,20 +45,23 @@ public class ProjectQuoteImpl extends AbstractQuoteImpl {
     @Override
     public String getQuote() {
         QuoteImpl q = getLastQuote();
-
         if (q != null) {
             return q.getQuote();
         }
 
         AbstractBuild<?, ?> b = project.getLastBuild();
-
         return persona.getRandomQuoteText(b);
     }
 
     @Override
     public Image getImage() {
         QuoteImpl q = getLastQuote();
-        return q != null ? q.getImage() : persona.getDefaultImage();
+        if (q != null) {
+            return q.getImage();
+        }
+        
+        AbstractBuild<?, ?> b = project.getLastBuild();
+        return persona.getImage(b);
     }
 
     @Override

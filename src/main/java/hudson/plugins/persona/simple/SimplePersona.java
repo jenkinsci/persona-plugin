@@ -94,6 +94,10 @@ public abstract class SimplePersona extends Persona {
     }
 
     public synchronized String getRandomQuoteText(AbstractBuild<?, ?> build) {
+        if (build == null) {
+            return null;
+        }
+        
         String choosenQuote = null;
         Result r = build.getResult();
         if ((r == Result.SUCCESS) && !quotesSuccess.isEmpty()) {

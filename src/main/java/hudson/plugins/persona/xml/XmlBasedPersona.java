@@ -115,6 +115,9 @@ public class XmlBasedPersona extends SimplePersona {
 
     @Override
     public Image getImage(AbstractBuild<?, ?> build) {
+        if (build == null) {
+            return getDefaultImage();
+        }
         Result r = build.getResult();
         if (r == Result.SUCCESS) {
             return new Image(icon, success);

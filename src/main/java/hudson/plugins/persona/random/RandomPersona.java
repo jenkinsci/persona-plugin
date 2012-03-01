@@ -87,6 +87,9 @@ public class RandomPersona extends SimplePersona {
      */
     @Override
     public Image getImage(AbstractBuild<?, ?> build) {
+        if (build == null) {
+            return getDefaultImage();
+        }
         XmlBasedPersona persona = getCurrentPersona();
         return persona != null ? persona.getImage(build) : null;
     }
