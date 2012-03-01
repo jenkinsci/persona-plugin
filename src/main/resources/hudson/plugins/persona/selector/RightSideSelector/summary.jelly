@@ -29,7 +29,8 @@ THE SOFTWARE.
     <td><img src="${rootURL}/${img.smallIconUrl}" width="48" height="48" /></td>
     <td style="vertical-align: middle;"><div style="max-width: 400px;">${action.quote}</div></td>
   </tr>
-  
-  <img src="${rootURL}/${img.backgroundImageUrl}" />  
+  <tr>
+    <td colspan="2"><img src="${rootURL}/${img.backgroundImageUrl}" /></td>
+  </tr>  
 
 </j:jelly>
