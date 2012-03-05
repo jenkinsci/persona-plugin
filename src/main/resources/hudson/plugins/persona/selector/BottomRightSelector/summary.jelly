@@ -33,13 +33,13 @@ THE SOFTWARE.
 
   <script>
       Element.setStyle($('main-table'), {
-          'background-image': 'none'
+          'backgroundImage': 'none'
       });
       Element.setStyle($('main-panel'), {
-          'background-image': 'url(${rootURL}/${img.backgroundImageUrl})',
-          'background-repeat': 'no-repeat',
-          'background-position': 'bottom right',
-          'padding-bottom': '270px'
+          'backgroundImage': 'url(${rootURL}/${img.backgroundImageUrl})',
+          'backgroundRepeat': 'no-repeat',
+          'backgroundPosition': 'bottom right',
+          'paddingBottom': '270px'
       });
   </script>
 

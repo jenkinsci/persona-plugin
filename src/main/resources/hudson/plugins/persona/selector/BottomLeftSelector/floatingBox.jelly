@@ -36,13 +36,13 @@ THE SOFTWARE.
   </div>  
   <script>
       Element.setStyle($('main-table'), {
-          'background-image': 'url(${rootURL}/${img.backgroundImageUrl})'
+          'backgroundImage': 'url(${rootURL}/${img.backgroundImageUrl})'
       });
       Element.setStyle($('main-panel'), {
-          'background-image': 'none',
-          'background-repeat': 'no-repeat',
-          'background-position': 'bottom right',
-          'padding-bottom': '270px'
+          'backgroundImage': 'none',
+          'backgroundRepeat': 'no-repeat',
+          'backgroundPosition': 'bottom right',
+          'paddingBottom': '270px'
       });
   </script>
  </j:jelly>
