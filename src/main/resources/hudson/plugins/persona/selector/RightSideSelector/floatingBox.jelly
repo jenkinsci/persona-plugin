@@ -28,13 +28,13 @@ THE SOFTWARE.
   <div style="max-width:400px;">
      <table border="0"> 
        <tr>
-         <td><img src="${rootURL}/${img.smallIconUrl}" width="48" height="48" /></td>
+         <td><img src="${resURL}/${img.smallIconUrl}" width="48" height="48" /></td>
          <td style="vertical-align: middle;">${action.quote}</td>
        </tr>
      </table>
   </div>
   <div style="text-align: right;">
-    <img src="${rootURL}/${img.backgroundImageUrl}" />  
+    <img src="${resURL}/${img.backgroundImageUrl}" />  
   </div>
   
  </j:jelly>

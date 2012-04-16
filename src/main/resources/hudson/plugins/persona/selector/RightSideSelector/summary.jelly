@@ -26,11 +26,11 @@ THE SOFTWARE.
   <j:set var="img" value="${action.image}"/>
   
   <tr>
-    <td><img src="${rootURL}/${img.smallIconUrl}" width="48" height="48" /></td>
+    <td><img src="${resURL}/${img.smallIconUrl}" width="48" height="48" /></td>
     <td style="vertical-align: middle;"><div style="max-width: 400px;">${action.quote}</div></td>
   </tr>
   <tr>
-    <td colspan="2"><img src="${rootURL}/${img.backgroundImageUrl}" /></td>
+    <td colspan="2"><img src="${resURL}/${img.backgroundImageUrl}" /></td>
   </tr>  
 
 </j:jelly>

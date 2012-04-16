@@ -26,13 +26,13 @@ THE SOFTWARE.
   <j:set var="img" value="${action.image}"/>
 
   <tr>
-    <td><img src="${rootURL}/${img.smallIconUrl}" width="48" height="48" /></td>
+    <td><img src="${resURL}/${img.smallIconUrl}" width="48" height="48" /></td>
     <td style="vertical-align: middle;"><div style="max-width: 400px;">${action.quote}</div></td>
   </tr>  
   
   <script>
       Element.setStyle($('main-table'), {
-          'backgroundImage': 'url(${rootURL}/${img.backgroundImageUrl})'
+          'backgroundImage': 'url(${resURL}/${img.backgroundImageUrl})'
       });
       Element.setStyle($('main-panel'), {
           'backgroundImage': 'none',

@@ -29,14 +29,14 @@ THE SOFTWARE.
   <div style="max-width:400px;">
      <table border="0"> 
        <tr>
-         <td><img src="${rootURL}/${img.smallIconUrl}" width="48" height="48" /></td>
+         <td><img src="${resURL}/${img.smallIconUrl}" width="48" height="48" /></td>
          <td style="vertical-align: middle;">${action.quote}</td>
        </tr>
      </table>
   </div>  
   <script>
       Element.setStyle($('main-table'), {
-          'backgroundImage': 'url(${rootURL}/${img.backgroundImageUrl})'
+          'backgroundImage': 'url(${resURL}/${img.backgroundImageUrl})'
       });
       Element.setStyle($('main-panel'), {
           'backgroundImage': 'none',
