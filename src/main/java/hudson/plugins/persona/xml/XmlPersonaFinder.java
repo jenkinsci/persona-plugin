@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright (c) 2010-2011, InfraDNA, Inc.
+ * Copyright (c) 2010-2012, InfraDNA, Inc., Seiji Sogabe
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -105,6 +105,10 @@ public class XmlPersonaFinder extends ExtensionFinder {
             }
         }
 
+        if (r.isEmpty()) {
+            LOGGER.warning("[Persona] No Persona found.");
+        }
+        
         return (List)r;
     }
 
@@ -117,7 +121,7 @@ public class XmlPersonaFinder extends ExtensionFinder {
             LOGGER.log(Level.SEVERE, "Failed to load a persona from "+xml,e);
         }
     }
-
+    
     private static final Logger LOGGER = Logger.getLogger(XmlPersonaFinder.class.getName());
 
 }
