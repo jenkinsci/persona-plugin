@@ -43,17 +43,19 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Instantiates {@link XmlBasedPersona}s }by looking at a known location in plugins.
+ * Instantiates {@link XmlBasedPersona}s }by looking at a known location in
+ * plugins.
  *
  * @author Kohsuke Kawaguchi
  */
 @Extension
 public class XmlPersonaFinder extends ExtensionFinder {
+
     @Override
     public <T> Collection<ExtensionComponent<T>> find(Class<T> type, Hudson hudson) {
-        if ((type!=Persona.class) && (type != XmlBasedPersona.class)) {
-			return Collections.emptyList();
-		}
+        if ((type != Persona.class) && (type != XmlBasedPersona.class)) {
+            return Collections.emptyList();
+        }
 
         List<ExtensionComponent<XmlBasedPersona>> r = new ArrayList<ExtensionComponent<XmlBasedPersona>>();
 
@@ -64,12 +66,12 @@ public class XmlPersonaFinder extends ExtensionFinder {
                 URL url = xml.toURI().toURL();
                 parsePersonaInto(url,
                         xml.getParent().toURI().toURL(),
-                        xml.getParent().getRemote().substring(baseDir.getRemote().length()+1).replace('\\','/'),r);
+                        xml.getParent().getRemote().substring(baseDir.getRemote().length() + 1).replace('\\', '/'), r);
             }
         } catch (RuntimeException e) {
-            LOGGER.log(Level.SEVERE, "Failed to load personas",e);
+            LOGGER.log(Level.SEVERE, "Failed to load personas", e);
         } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Failed to load personas",e);
+            LOGGER.log(Level.SEVERE, "Failed to load personas", e);
         } catch (InterruptedException e) {
             // all local processing. can't happen
             throw new Error(e);
@@ -108,20 +110,19 @@ public class XmlPersonaFinder extends ExtensionFinder {
         if (r.isEmpty()) {
             LOGGER.warning("[Persona] No Persona found.");
         }
-        
-        return (List)r;
+
+        return (List) r;
     }
 
     private void parsePersonaInto(URL xml, URL imageBase, String imageBasePath, Collection<ExtensionComponent<XmlBasedPersona>> result) {
         try {
-            result.add(new ExtensionComponent<XmlBasedPersona>(XmlBasedPersona.create(xml,imageBase,imageBasePath)));
+            result.add(new ExtensionComponent<XmlBasedPersona>(XmlBasedPersona.create(xml, imageBase, imageBasePath)));
         } catch (DocumentException e) {
-            LOGGER.log(Level.SEVERE, "Failed to load a persona from "+xml,e);
+            LOGGER.log(Level.SEVERE, "Failed to load a persona from " + xml, e);
         } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Failed to load a persona from "+xml,e);
+            LOGGER.log(Level.SEVERE, "Failed to load a persona from " + xml, e);
         }
     }
     
     private static final Logger LOGGER = Logger.getLogger(XmlPersonaFinder.class.getName());
-
 }
