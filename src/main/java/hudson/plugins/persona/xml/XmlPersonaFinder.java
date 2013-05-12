@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright (c) 2010-2012, InfraDNA, Inc., Seiji Sogabe
+ * Copyright (c) 2010-2013, InfraDNA, Inc., Seiji Sogabe
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -41,6 +41,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import jenkins.ExtensionComponentSet;
+import jenkins.ExtensionRefreshException;
+import jenkins.model.Jenkins;
 
 /**
  * Instantiates {@link XmlBasedPersona}s }by looking at a known location in
@@ -51,15 +54,43 @@ import java.util.logging.Logger;
 @Extension
 public class XmlPersonaFinder extends ExtensionFinder {
 
+    private List<PluginWrapper> parsedWrappers;
+
     @Override
     public <T> Collection<ExtensionComponent<T>> find(Class<T> type, Hudson hudson) {
         if ((type != Persona.class) && (type != XmlBasedPersona.class)) {
-            return Collections.emptyList();
+            return Collections.EMPTY_LIST;
         }
 
-        List<ExtensionComponent<XmlBasedPersona>> r = new ArrayList<ExtensionComponent<XmlBasedPersona>>();
+        Collection<ExtensionComponent<T>> r = new ArrayList<ExtensionComponent<T>>();
 
-        // locate personas from $HUDSON_HOME or $JENKINS_HOME
+        // locate persona from $JENKINS_HOME
+        loadFromJenkinsHomeTo(hudson, r);
+
+        if (parsedWrappers == null) {
+            // locate personas from plugins
+            parsedWrappers = hudson.getPluginManager().getPlugins();
+            r.addAll(new ExtensionComponentSetImpl(parsedWrappers).find(type));
+        }
+
+        if (r.isEmpty()) {
+            LOGGER.warning("[Persona] No Persona found.");
+        }
+
+        return (List) r;
+    }
+
+    @Override
+    public ExtensionComponentSet refresh() throws ExtensionRefreshException {
+        List<PluginWrapper> newWrappers = Jenkins.getInstance().getPluginManager().getPlugins();
+        List<PluginWrapper> delta = new ArrayList<PluginWrapper>(newWrappers);
+        delta.removeAll(parsedWrappers);
+        parsedWrappers = newWrappers;
+        return new ExtensionComponentSetImpl(delta);
+    }
+
+    private <T> void loadFromJenkinsHomeTo(Hudson hudson, Collection<ExtensionComponent<T>> r) {
+
         try {
             FilePath baseDir = new FilePath(hudson.getRootDir());
             for (FilePath xml : baseDir.list("persona/**/*.xml")) {
@@ -76,51 +107,64 @@ public class XmlPersonaFinder extends ExtensionFinder {
             // all local processing. can't happen
             throw new Error(e);
         }
-
-        // locate personas from plugins
-        for (PluginWrapper pw : hudson.getPluginManager().getPlugins()) {
-            try {
-                FilePath baseDir = new FilePath(new File(pw.baseResourceURL.getFile()));
-                // support persona-1.0,1,1 style
-                FilePath personaXML = baseDir.child("persona.xml");
-                if (personaXML.exists()) {
-                    LOGGER.log(Level.INFO, "loading old style persona from {0}.hpi", pw.getShortName());
-                    URL url = personaXML.toURI().toURL();
-                    parsePersonaInto(url, pw.baseResourceURL, "plugin/" + pw.getShortName(), r);
-                    continue;
-                }
-                // support persona-1.2 or newer style
-                for (FilePath xml : baseDir.list("**/persona.xml")) {
-                    LOGGER.log(Level.INFO, "loading 1.2 or newer style persona from {0}.hpi", pw.getShortName());
-                    URL url = xml.toURI().toURL();
-                    parsePersonaInto(url,
-                            xml.getParent().toURI().toURL(),
-                            "plugin/" + pw.getShortName() + "/" + xml.getParent().getRemote().substring(baseDir.getRemote().length() + 1), r);
-                }
-            } catch (RuntimeException e) {
-                continue;   // FilePath#list throws BuildException
-            } catch (IOException e) {
-                continue;   // no such file
-            } catch (InterruptedException e) {
-                // all local processing. can't happen
-                throw new Error(e);
-            }
-        }
-
-        if (r.isEmpty()) {
-            LOGGER.warning("[Persona] No Persona found.");
-        }
-
-        return (List) r;
     }
 
-    private void parsePersonaInto(URL xml, URL imageBase, String imageBasePath, Collection<ExtensionComponent<XmlBasedPersona>> result) {
+    private static <T> void parsePersonaInto(URL xml, URL imageBase, String imageBasePath,
+            Collection<ExtensionComponent<T>> result) {
         try {
-            result.add(new ExtensionComponent<XmlBasedPersona>(XmlBasedPersona.create(xml, imageBase, imageBasePath)));
+            result.add(new ExtensionComponent(XmlBasedPersona.create(xml, imageBase, imageBasePath)));
         } catch (DocumentException e) {
             LOGGER.log(Level.SEVERE, "Failed to load a persona from " + xml, e);
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "Failed to load a persona from " + xml, e);
+        }
+    }
+
+    private static class ExtensionComponentSetImpl extends ExtensionComponentSet {
+
+        private List<PluginWrapper> wrappers;
+
+        public ExtensionComponentSetImpl(List<PluginWrapper> wrappers) {
+            this.wrappers = wrappers;
+        }
+
+        @Override
+        public <T> Collection<ExtensionComponent<T>> find(Class<T> type) {
+            Collection<ExtensionComponent<T>> r = new ArrayList<ExtensionComponent<T>>();
+            if (type != Persona.class && type != XmlBasedPersona.class) {
+                return r;
+            }
+
+            for (PluginWrapper pw : wrappers) {
+                try {
+                    FilePath baseDir = new FilePath(new File(pw.baseResourceURL.getFile()));
+                    // support persona-1.0,1,1 style
+                    FilePath personaXML = baseDir.child("persona.xml");
+                    if (personaXML.exists()) {
+                        LOGGER.log(Level.INFO, "loading old style persona from {0}.hpi", pw.getShortName());
+                        URL url = personaXML.toURI().toURL();
+                        parsePersonaInto(url, pw.baseResourceURL, "plugin/" + pw.getShortName(), r);
+                        continue;
+                    }
+                    // support persona-1.2 or newer style
+                    for (FilePath xml : baseDir.list("**/persona.xml")) {
+                        LOGGER.log(Level.INFO, "loading 1.2 or newer style persona from {0}.hpi", pw.getShortName());
+                        URL url = xml.toURI().toURL();
+                        parsePersonaInto(url,
+                                xml.getParent().toURI().toURL(),
+                                "plugin/" + pw.getShortName() + "/" + xml.getParent().getRemote().substring(baseDir.getRemote().length() + 1), r);
+                    }
+                } catch (RuntimeException e) {
+                    continue;   // FilePath#list throws BuildException
+                } catch (IOException e) {
+                    continue;   // no such file
+                } catch (InterruptedException e) {
+                    // all local processing. can't happen
+                    throw new Error(e);
+                }
+            }
+
+            return r;
         }
     }
     

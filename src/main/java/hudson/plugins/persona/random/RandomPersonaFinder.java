@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright (c) 2010-2012, InfraDNA, Inc., Seiji Sogabe
+ * Copyright (c) 2010-2013, InfraDNA, Inc., Seiji Sogabe
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -33,6 +33,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import jenkins.ExtensionComponentSet;
+import jenkins.ExtensionRefreshException;
 
 /**
  * @author whren
@@ -56,5 +58,16 @@ public class RandomPersonaFinder extends ExtensionFinder {
 
     private void parsePersonaInto(Collection<ExtensionComponent<RandomPersona>> result) {
         result.add(new ExtensionComponent<RandomPersona>(RandomPersona.create()));
+    }
+
+    @Override
+    public ExtensionComponentSet refresh() throws ExtensionRefreshException {
+        return new ExtensionComponentSet() {
+
+            @Override
+            public <T> Collection<ExtensionComponent<T>> find(Class<T> type) {
+                return Collections.EMPTY_LIST;
+            }
+        };
     }
 }
