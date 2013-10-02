@@ -84,7 +84,9 @@ public class XmlPersonaFinder extends ExtensionFinder {
     public ExtensionComponentSet refresh() throws ExtensionRefreshException {
         List<PluginWrapper> newWrappers = Jenkins.getInstance().getPluginManager().getPlugins();
         List<PluginWrapper> delta = new ArrayList<PluginWrapper>(newWrappers);
-        delta.removeAll(parsedWrappers);
+        if (parsedWrappers != null) {
+            delta.removeAll(parsedWrappers);
+        }
         parsedWrappers = newWrappers;
         return new ExtensionComponentSetImpl(delta);
     }
