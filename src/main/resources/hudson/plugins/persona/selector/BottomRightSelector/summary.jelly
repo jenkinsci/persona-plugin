@@ -32,12 +32,14 @@ THE SOFTWARE.
   </tr>
 
   <script>
-      Element.setStyle($('main-panel'), {
-          'backgroundImage': 'url(${resURL}/${img.backgroundImageUrl})',
-          'backgroundRepeat': 'no-repeat',
-          'backgroundPosition': 'bottom right',
-          'paddingBottom': '270px'
-      });
+      window.onload = function () {
+          Element.setStyle($('main-panel'), {
+              'backgroundImage': 'url(${resURL}/${img.backgroundImageUrl})',
+              'backgroundRepeat': 'no-repeat',
+              'backgroundPosition': 'bottom right',
+              'paddingBottom': '270px'
+          });
+      }
   </script>
 
 </j:jelly>
