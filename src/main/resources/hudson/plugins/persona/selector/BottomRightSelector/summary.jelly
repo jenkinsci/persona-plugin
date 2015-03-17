@@ -32,7 +32,9 @@ THE SOFTWARE.
   </tr>
 
   <script>
-      window.onload = function () {
+      window.onload = loadPersonaBackground;
+      loadPersonaBackground();
+      function loadPersonaBackground() {
           Element.setStyle($('main-panel'), {
               'backgroundImage': 'url(${resURL}/${img.backgroundImageUrl})',
               'backgroundRepeat': 'no-repeat',

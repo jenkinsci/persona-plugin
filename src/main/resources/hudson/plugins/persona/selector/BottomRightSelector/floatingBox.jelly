@@ -35,8 +35,10 @@ THE SOFTWARE.
      </table>
   </div>  
   <script>
-       window.onload = function () {
-           Element.setStyle($('main-panel'), {
+      window.onload = loadPersonaBackground;
+      loadPersonaBackground();
+      function loadPersonaBackground() {
+          Element.setStyle($('main-panel'), {
               'backgroundImage': 'url(${resURL}/${img.backgroundImageUrl})',
               'backgroundRepeat': 'no-repeat',
               'backgroundPosition': 'bottom right',
