@@ -35,11 +35,8 @@ THE SOFTWARE.
      </table>
   </div>  
   <script>
-      Element.setStyle($('main-table'), {
-          'backgroundImage': 'url(${resURL}/${img.backgroundImageUrl})'
-      });
       Element.setStyle($('main-panel'), {
-          'backgroundImage': 'none',
+          'backgroundImage': 'url(${resURL}/${img.backgroundImageUrl})',
           'backgroundRepeat': 'no-repeat',
           'backgroundPosition': 'bottom right',
           'paddingBottom': '270px'

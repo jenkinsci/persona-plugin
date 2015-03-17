@@ -32,9 +32,6 @@ THE SOFTWARE.
   </tr>
 
   <script>
-      Element.setStyle($('main-table'), {
-          'backgroundImage': 'none'
-      });
       Element.setStyle($('main-panel'), {
           'backgroundImage': 'url(${resURL}/${img.backgroundImageUrl})',
           'backgroundRepeat': 'no-repeat',
