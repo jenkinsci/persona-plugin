@@ -38,8 +38,7 @@ THE SOFTWARE.
           Element.setStyle($('jenkins'), {
               'backgroundImage': 'url(${resURL}/${img.backgroundImageUrl})',
               'backgroundRepeat': 'no-repeat',
-              'backgroundPosition': 'bottom right',
-              'paddingBottom': '270px'
+              'backgroundPosition': 'bottom right'
           });
       }
   </script>
