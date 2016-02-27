@@ -35,7 +35,7 @@ THE SOFTWARE.
       window.onload = loadPersonaBackground;
       loadPersonaBackground();
       function loadPersonaBackground() {
-          Element.setStyle($('main-panel'), {
+          Element.setStyle($('jenkins'), {
               'backgroundImage': 'url(${resURL}/${img.backgroundImageUrl})',
               'backgroundRepeat': 'no-repeat',
               'backgroundPosition': 'bottom right',
