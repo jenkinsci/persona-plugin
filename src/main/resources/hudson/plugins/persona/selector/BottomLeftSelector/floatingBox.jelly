@@ -42,7 +42,11 @@ THE SOFTWARE.
               'backgroundImage': 'url(${resURL}/${img.backgroundImageUrl})',
               'backgroundRepeat': 'no-repeat',
               'backgroundPosition': 'bottom left',
-              'paddingBottom': '270px'
+              'position': 'absolute',
+              'top': '85px',
+              'bottom': '40px',
+              'left': '0',
+              'right': '0',
           });
       }
   </script>
