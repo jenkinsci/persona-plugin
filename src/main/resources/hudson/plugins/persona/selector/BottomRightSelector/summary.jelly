@@ -32,15 +32,15 @@ THE SOFTWARE.
   </tr>
 
   <script>
-      Element.setStyle($('main-table'), {
-          'backgroundImage': 'none'
-      });
-      Element.setStyle($('main-panel'), {
-          'backgroundImage': 'url(${resURL}/${img.backgroundImageUrl})',
-          'backgroundRepeat': 'no-repeat',
-          'backgroundPosition': 'bottom right',
-          'paddingBottom': '270px'
-      });
+      window.onload = loadPersonaBackground;
+      loadPersonaBackground();
+      function loadPersonaBackground() {
+          Element.setStyle($('jenkins'), {
+              'backgroundImage': 'url(${resURL}/${img.backgroundImageUrl})',
+              'backgroundRepeat': 'no-repeat',
+              'backgroundPosition': 'bottom right'
+          });
+      }
   </script>
 
 </j:jelly>

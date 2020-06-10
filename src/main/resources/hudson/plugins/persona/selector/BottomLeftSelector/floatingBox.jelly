@@ -35,14 +35,14 @@ THE SOFTWARE.
      </table>
   </div>  
   <script>
-      Element.setStyle($('main-table'), {
-          'backgroundImage': 'url(${resURL}/${img.backgroundImageUrl})'
-      });
-      Element.setStyle($('main-panel'), {
-          'backgroundImage': 'none',
-          'backgroundRepeat': 'no-repeat',
-          'backgroundPosition': 'bottom right',
-          'paddingBottom': '270px'
-      });
+      window.onload = loadPersonaBackground;
+      loadPersonaBackground();
+      function loadPersonaBackground() {
+          Element.setStyle($('main-panel'), {
+              'backgroundImage': 'url(${resURL}/${img.backgroundImageUrl})',
+              'backgroundRepeat': 'no-repeat',
+              'backgroundPosition': 'bottom left'
+          });
+      }
   </script>
  </j:jelly>
