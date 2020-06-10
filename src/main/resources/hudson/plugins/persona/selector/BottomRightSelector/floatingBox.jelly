@@ -41,12 +41,7 @@ THE SOFTWARE.
           Element.setStyle($('main-panel'), {
               'backgroundImage': 'url(${resURL}/${img.backgroundImageUrl})',
               'backgroundRepeat': 'no-repeat',
-              'backgroundPosition': 'bottom right',
-              'position': 'absolute',
-              'top': '85px',
-              'bottom': '40px',
-              'left': '0',
-              'right': '0',
+              'backgroundPosition': 'bottom right'
           });
       }
   </script>
