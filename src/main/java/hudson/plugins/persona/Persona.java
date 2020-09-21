@@ -23,7 +23,7 @@
  */
 package hudson.plugins.persona;
 
-import com.thoughtworks.xstream.annotations.XStreamSerializeAs;
+import com.thoughtworks.xstream.annotations.XStreamAliasType;
 import com.thoughtworks.xstream.converters.basic.AbstractSingleValueConverter;
 import hudson.ExtensionList;
 import hudson.ExtensionPoint;
@@ -43,7 +43,7 @@ import hudson.plugins.persona.simple.AbstractQuoteImpl;
  *
  * @author Kohsuke Kawaguchi
  */
-@XStreamSerializeAs(Persona.class)
+@XStreamAliasType("persona")
 public abstract class Persona implements ExtensionPoint, ModelObject {
     /**
      * Uniquely identifies this persona among other personas.
